@@ -1,4 +1,4 @@
-<div class="min-h-screen bg-gray-50 dark:bg-neutral-900">
+<div class="min-h-screen bg-gray-50">
     <!-- Header -->
     <div class="bg-gradient-to-r from-green-600 to-emerald-600 shadow-lg">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
@@ -8,8 +8,9 @@
             </div>
         </div>
     </div>
-    {{-- messages/ flash messages --}}
+
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
         @if (session()->has('message'))
             <div class="mb-6 bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg flex items-center justify-between">
                 <span>{{ session('message') }}</span>
@@ -20,7 +21,7 @@
                 </button>
             </div>
         @endif
-        
+
         @if (session()->has('error'))
             <div class="mb-6 bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg flex items-center justify-between">
                 <span>{{ session('error') }}</span>
@@ -31,26 +32,27 @@
                 </button>
             </div>
         @endif
-    </div>
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {{-- create/edit category form --}}
-        <div class="lg:col-span-1">
-                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 sticky top-8">
-                    <h3 class="text-lg font-semibold text-gray-400 mb-6">
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Create/Edit Category Form -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-xl shadow-md p-6 sticky top-8">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-6">
                         {{ $isEditing ? 'Edit Category' : 'Create Category' }}
                     </h3>
                     
                     <form wire:submit="save" class="space-y-4">
                         <!-- Category Name -->
                         <div>
-                            <label for="name" class="block text-sm font-medium text-gray-400 mb-2">
+                            <label for="name" class="block text-sm font-medium text-gray-700 mb-2">
                                 Category Name <span class="text-red-500">*</span>
                             </label>
                             <input type="text" 
                                    id="name"
                                    wire:model="name"
                                    placeholder="e.g., Food & Dining"
-                                   class="w-full dark:text-gray-400 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent @error('name') border-red-500 @enderror">
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent @error('name') border-red-500 @enderror">
                             @error('name')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
@@ -58,7 +60,7 @@
 
                         <!-- Color Picker -->
                         <div>
-                            <label class="block text-sm font-medium text-gray-400 mb-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
                                 Color <span class="text-red-500">*</span>
                             </label>
                             <div class="grid grid-cols-6 gap-2">
@@ -76,8 +78,8 @@
                         </div>
 
                         <!-- Preview -->
-                        <div class="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg border-2 border-dashed border-gray-300">
-                            <p class="text-sm text-gray-400 mb-2">Preview:</p>
+                        <div class="p-4 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
+                            <p class="text-sm text-gray-600 mb-2">Preview:</p>
                             <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium" 
                                  style="background-color: {{ $color }}20; color: {{ $color }};">
                                 <span class="w-3 h-3 rounded-full" style="background-color: {{ $color }};"></span>
@@ -102,18 +104,19 @@
                     </form>
                 </div>
             </div>
-        {{-- categories listing --}}
-        <div class="lg:col-span-2">
-                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
+
+            <!-- Categories List -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-xl shadow-md overflow-hidden">
                     <div class="p-6 border-b border-gray-200">
-                        <h3 class="text-lg font-semibold text-gray-400">Your Categories</h3>
-                        <p class="text-sm text-gray-400 mt-1">{{ $categories->count() }} categories</p>
+                        <h3 class="text-lg font-semibold text-gray-800">Your Categories</h3>
+                        <p class="text-sm text-gray-600 mt-1">{{ $categories->count() }} categories</p>
                     </div>
 
                     @if($categories->count() > 0)
                         <div class="divide-y divide-gray-200">
                             @foreach($categories as $category)
-                                <div class="p-6 hover:bg-gray-50 dark:hover:bg-gray-700 transition" wire:key="category-{{ $category->id }}">
+                                <div class="p-6 hover:bg-gray-50 transition" wire:key="category-{{ $category->id }}">
                                     <div class="flex items-center justify-between">
                                         <div class="flex items-center gap-4 flex-1">
                                             <div class="w-12 h-12 rounded-lg flex items-center justify-center" 
@@ -121,15 +124,15 @@
                                                 <div class="w-6 h-6 rounded-full" style="background-color: {{ $category->color }};"></div>
                                             </div>
                                             <div class="flex-1">
-                                                <h4 class="text-lg font-semibold text-gray-400">{{ $category->name }}</h4>
-                                                <p class="text-sm text-gray-400">
+                                                <h4 class="text-lg font-semibold text-gray-900">{{ $category->name }}</h4>
+                                                <p class="text-sm text-gray-600">
                                                     {{ $category->expenses_count }} {{ Str::plural('expense', $category->expenses_count) }}
                                                 </p>
                                             </div>
                                         </div>
                                         <div class="flex items-center gap-2">
                                             <button wire:click="edit({{ $category->id }})"
-                                                    class="p-2 text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-lg transition">
+                                                    class="p-2 text-gray-600 hover:text-green-600 hover:bg-green-50 rounded-lg transition">
                                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                                                 </svg>
@@ -137,7 +140,7 @@
                                             @if($category->expenses_count === 0)
                                                 <button wire:click="delete({{ $category->id }})"
                                                         wire:confirm="Are you sure you want to delete this category?"
-                                                        class="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition">
+                                                        class="p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition">
                                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                                                     </svg>
@@ -187,5 +190,8 @@
                     </div>
                 @endif
             </div>
+
+        </div>
+
     </div>
 </div>
