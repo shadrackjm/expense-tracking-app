@@ -70,7 +70,7 @@ class ExpenseForm extends Component
         $this->type = $expense->type;
         $this->recurring_frequency = $expense->recurring_frequency;
         $this->recurring_start_date = $expense->recurring_start_date->format('Y-m-d');
-        $this->recurring_end_date = $expense->recurring_end_date->format('Y-m-d');
+        $this->recurring_end_date = $expense->recurring_end_date;
     }
 
     #[Computed]

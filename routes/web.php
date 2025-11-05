@@ -33,6 +33,7 @@ Route::middleware(['auth'])->group(function () {
     //expenses
     Route::get('expenses', ExpenseList::class)->name('expenses.index');
     Route::get('/expenses/create',ExpenseForm::class)->name('expenses.index');
+    Route::get('expenses/{expenseId}/edit',ExpenseForm::class)->name('expenses.edit');
     Route::get('recurring-expenses',RecurringExpense::class)->name('recurring-expenses.index');
 
     Route::get('settings/profile', Profile::class)->name('settings.profile');
