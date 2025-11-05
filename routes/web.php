@@ -1,15 +1,18 @@
 <?php
 
+use App\Models\Budget;
 use App\Livewire\BudgetForm;
 use App\Livewire\BudgetList;
 use App\Livewire\Categories;
-use App\Livewire\Settings\Appearance;
-use App\Livewire\Settings\Password;
-use App\Livewire\Settings\Profile;
-use App\Livewire\Settings\TwoFactor;
-use App\Models\Budget;
-use Illuminate\Support\Facades\Route;
+use App\Livewire\ExpenseForm;
+use App\Livewire\ExpenseList;
 use Laravel\Fortify\Features;
+use App\Livewire\RecurringExpense;
+use App\Livewire\Settings\Profile;
+use App\Livewire\Settings\Password;
+use App\Livewire\Settings\TwoFactor;
+use App\Livewire\Settings\Appearance;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
@@ -26,6 +29,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('budgets',BudgetList::class,)->name('budgets.index');
     Route::get('budgets/create', BudgetForm::class)->name('budget.create');
     Route::get('budgets/{budgetId}/edit', BudgetForm::class)->name('budgtes.edit');
+
+    //expenses
+    Route::get('expenses', ExpenseList::class)->name('expenses.index');
+    Route::get('/expenses/create',ExpenseForm::class)->name('expenses.index');
+    Route::get('recurring-expenses',RecurringExpense::class)->name('recurring-expenses.index');
 
     Route::get('settings/profile', Profile::class)->name('settings.profile');
     Route::get('settings/password', Password::class)->name('settings.password');

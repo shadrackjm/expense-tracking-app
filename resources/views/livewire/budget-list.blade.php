@@ -1,6 +1,6 @@
 <div class="min-h-screen bg-gray-50 dark:bg-neutral-900 rounded">
     <!-- Header -->
-    <div class="bg-gradient-to-r from-indigo-600 to-purple-600 shadow-lg">
+    <div class="bg-indigo-600 shadow-lg">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
             <div class="flex items-center justify-between">
                 <div>
