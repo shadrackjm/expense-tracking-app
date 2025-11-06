@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\Dashboard;
 use App\Models\Budget;
 use App\Livewire\BudgetForm;
 use App\Livewire\BudgetList;
@@ -18,7 +19,7 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::view('dashboard', 'dashboard')
+Route::get('dashboard',Dashboard::class)
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 

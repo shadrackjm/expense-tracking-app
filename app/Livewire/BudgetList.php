@@ -6,9 +6,10 @@ use Carbon\Carbon;
 use App\Models\Budget;
 use Livewire\Component;
 use App\Models\Category;
+use Livewire\Attributes\Title;
 use Livewire\Attributes\Computed;
 use Illuminate\Support\Facades\Auth;
-
+#[Title("Budgets - ExpenseApp")]
 class BudgetList extends Component
 {
     public $selectedMonth;

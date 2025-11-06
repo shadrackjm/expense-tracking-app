@@ -2,13 +2,14 @@
 
 namespace App\Livewire;
 
-use App\Models\Category;
 use App\Models\Expense;
-use Illuminate\Support\Facades\Auth;
-use Livewire\Attributes\Computed;
 use Livewire\Component;
+use App\Models\Category;
 use Livewire\WithPagination;
-
+use Livewire\Attributes\Title;
+use Livewire\Attributes\Computed;
+use Illuminate\Support\Facades\Auth;
+#[Title("Expenses - ExpenseApp")]
 class ExpenseList extends Component
 {
     use WithPagination;

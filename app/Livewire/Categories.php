@@ -4,8 +4,10 @@ namespace App\Livewire;
 
 use App\Models\Category;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Title;
 use Livewire\Component;
 
+#[Title("Categories - ExpenseApp")]
 class Categories extends Component
 {
     public $name = "";

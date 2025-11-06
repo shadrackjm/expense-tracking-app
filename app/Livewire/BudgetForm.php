@@ -6,9 +6,10 @@ use Carbon\Carbon;
 use App\Models\Budget;
 use Livewire\Component;
 use App\Models\Category;
+use Livewire\Attributes\Title;
 use Livewire\Attributes\Computed;
 use Illuminate\Support\Facades\Auth;
-
+#[Title("Budget - ExpenseApp")]
 class BudgetForm extends Component
 {
     public $budgetId;

@@ -10,7 +10,7 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 Schedule::command('expenses:generate-recurring-expense')
-    ->everyFifteenSeconds()
+    ->dailyAt('00:00')
     ->withoutOverlapping()
     ->onSuccess(function(){
         Log::info('Reccurring expense generated successfully.');

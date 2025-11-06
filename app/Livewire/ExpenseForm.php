@@ -5,10 +5,11 @@ namespace App\Livewire;
 use App\Models\Expense;
 use Livewire\Component;
 use App\Models\Category;
+use Livewire\Attributes\Title;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Validate;
 use Illuminate\Support\Facades\Auth;
-
+#[Title("Expense - ExpenseApp")]
 class ExpenseForm extends Component
 {
     public $expenseId;
