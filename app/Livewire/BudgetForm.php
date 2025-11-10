@@ -7,6 +7,7 @@ use App\Models\Budget;
 use Livewire\Component;
 use App\Models\Category;
 use Livewire\Attributes\Title;
+use App\Services\BudgetAIService;
 use Livewire\Attributes\Computed;
 use Illuminate\Support\Facades\Auth;
 #[Title("Budget - ExpenseApp")]
@@ -19,6 +20,12 @@ class BudgetForm extends Component
     public $category_id = '';
     
     public $isEdit = false;
+
+    // AI recommendation properties
+    public $aiRecommendation = null;
+    public $showAIRecommendation = false;
+    public $loadingRecommendation = false;
+    public $hasHistoricalData = false;
 
     protected function rules()
     {
@@ -57,7 +64,33 @@ class BudgetForm extends Component
         } else {
             $this->month = now()->month;
             $this->year = now()->year;
+            $this->checkHistoricalData();
         }
+    }
+
+    public function updatedCategoryId(){
+        $aiService = new BudgetAIService();
+        $this->hasHistoricalData = $aiService->hasEnoughHistoricalData(
+            $this->category_id ?: null,
+            auth()->id()
+        );
+
+        // reset the Ai recommendations
+        $this->aiRecommendation = null;
+        $this->showAIRecommendation = false;
+    }
+
+    /**
+     * Check historical data when month/year changes
+     */
+    public function updatedMonth()
+    {
+        $this->checkHistoricalData();
+    }
+
+    public function updatedYear()
+    {
+        $this->checkHistoricalData();
     }
 
     public function loadBudget()
@@ -122,6 +155,50 @@ class BudgetForm extends Component
                       ->orderBy('name')
                       ->get();
        }
+
+       private function checkHistoricalData(){
+            if ($this->month && $this->year) {
+                $aiService = new BudgetAIService();
+                $this->hasHistoricalData = $aiService->hasEnoughHistoricalData($this->category_id ?: null, Auth::user()->id);
+            }
+       }
+
+       public function getAIRecommendation(){
+            $this->loadingRecommendation = true;
+
+            try {
+                $aiService = new BudgetAIService();
+
+                $recommendation = $aiService->getBudgetRecommendation(
+                    $this->category_id,
+                    Auth::user()->id,
+                    $this->month,
+                    $this->year
+                );
+
+                if ($recommendation) {
+                    $this->aiRecommendation = $recommendation;
+                    $this->showAIRecommendation = true;
+                }else{
+                    session()->flash('ai-error','Unable to generate recommendation. Please try again.');
+                }
+            } catch (\Exception $e) {
+                    session()->flash('ai-error','Ai service temporarily unavailable. Please try again later.');
+                
+            }
+            $this->loadingRecommendation = false;
+       }
+
+       public function applyRecommendation($type = 'recommended'){
+            if ($this->aiRecommendation) {
+                $this->amount = $this->aiRecommendation[$type] ?? $this->aiRecommendation['recommended'];
+            }
+       }
+    public function closeAIRecommendation()
+    {
+        $this->showAIRecommendation = false;
+    }
+       
     public function render()
     {
         return view('livewire.budget-form',[
